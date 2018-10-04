@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Demo</title>
+<!--         Main page -->
+    </h:head>
+    <h:body>
+        <b:panelGrid columns="1">
+   			<b:badge>
+                <h:form>
+	                <b:navBar brand="DEMO" brandHref="#" fluid="true" position="top" sticky="true" >
+  						<b:navbarLinks>
+						    <b:dropMenu value="Контент" />
+						    <b:dropMenu value="Справочники" >
+						        <b:navCommandLink  value="Исполнители" action="#{menuView.actualPerformer}"  />
+						        <b:navCommandLink  value="Авторы музыки" action="#{menuView.actualMusicAuthor}" />
+						        <b:navCommandLink  value="Авторы текста" action="#{menuView.actualTextAuthor}" />
+					        </b:dropMenu>
+ 
+						</b:navbarLinks>
+					</b:navBar>
+                
+                </h:form>
+            </b:badge>
+
+            <b:badge >
+               		<ui:insert name="source" />
+            </b:badge>
+        </b:panelGrid>
+    </h:body>
+</html>

@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="index.xhtml">
+    <ui:define name="source">
+    
+<!--     dictonary text authors  -->
+    
+        <h:form id="form">
+        	<b:panel >
+        	<b:panelGrid columns="1">
+        		<b:badge >
+        			<b:dataTable value="#{menuView.textAuthors}"
+             			var="textAuthor"
+             			select="true"
+             			selection-mode="single"
+             			selected-items="rows"
+             			widget-var="textAuthorTable" 
+             			id="textAuthorTable"
+             			searching="false" 
+             			onselect="ajax:menuView.onSelect(textAuthor);"
+				        ondeselect="ajax:menuView.onDeselect(textAuthor);"
+             			update=":modalformchange :form:changeDialogView :form:deleteButton">
+
+ 						<f:facet name="header">
+      						<tr>
+      							<th colspan="2" >Авторы текста</th>
+					        </tr>
+						    <tr>
+        						<th>Id</th>
+        						<th>Наименование</th>
+						    </tr>
+    					</f:facet>
+             		
+						<b:dataTableColumn value="#{textAuthor.id}" />
+						<b:dataTableColumn value="#{textAuthor.title}" />
+             		
+           			</b:dataTable>
+				</b:badge>
+				<b:badge >
+           	 		 <b:panelGrid columns="3" size="xs" >
+                   		<b:badge>				 	
+                   			<b:button id="changeDialogView" value="Изменить" onclick="$('.modalPseudoClass2').modal()" disabled="#{menuView.disableChnageTextAuthorButton}"  />
+                   		</b:badge>
+                   		<b:badge>
+                   			<b:button id="addNewDialogView" value="Добавить" onclick="$('.modalPseudoClass').modal()"  />
+                   		</b:badge>
+                   		<b:badge>
+                   			<b:commandButton id="deleteButton" value="Удалить"
+                   				 action="#{menuView.delete}" disabled="#{menuView.disableChnageTextAuthorButton}"
+                   				 update=":form:textAuthorTable :form:deleteButton :form:changeDialogView"  />
+                   		</b:badge>
+                   	</b:panelGrid>
+        		</b:badge>  
+				
+			</b:panelGrid>
+			</b:panel>
+			
+        </h:form>
+
+
+		<b:modal id="textAuthorDialog" title="Автор Текста"
+			styleClass="modalPseudoClass" widgetVar="textAuthorDialog">
+			<h:form id="modalform">
+				<b:panelGrid columns="2" size="xs">
+					<b:badge value="Наименование" />
+					<b:badge>
+						<b:inputText value="#{menuView.newDictonaryTitle}" />
+					</b:badge>
+					
+					<b:badge>
+						<b:commandButton value="Сохранить" look="primary" dismiss="modal"
+							onclick="$('.modalPseudoClass').hide()"
+							action="#{menuView.save}"
+							update=":form:textAuthorTable" />
+					</b:badge>
+					<b:badge>
+						<b:button value="Отмена" dismiss="modal" />
+					</b:badge>
+					
+					
+				</b:panelGrid>
+
+			</h:form>
+		</b:modal>
+		
+		<b:modal id="textAuthorUpdateDialog" title="Автор Текста"
+			styleClass="modalPseudoClass2" widgetVar="textAuthorUpdateDialog">
+			<h:form id="modalformchange">
+				<b:panelGrid columns="2" size="xs">
+					<b:badge value="Id" />
+					<b:badge>
+						<h:outputText value="#{menuView.selectedTextAuthor.id}" />
+					</b:badge>
+					<b:badge value="Наименование" />
+					<b:badge>
+						<b:inputText value="#{menuView.selectedTextAuthor.title}" />
+					</b:badge>
+					
+					<b:badge>
+						<b:commandButton value="Сохранить" look="primary" dismiss="modal"
+							onclick="$('.modalPseudoClass2').hide()"
+							action="#{menuView.update}"
+							update=":form:textAuthorTable" />
+					</b:badge>
+					<b:badge>
+						<b:button value="Отмена" dismiss="modal" />
+					</b:badge>
+					
+					
+				</b:panelGrid>
+
+			</h:form>
+		</b:modal>
+
+	</ui:define>
+
+</ui:composition>

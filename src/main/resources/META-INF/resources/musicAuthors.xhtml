@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="index.xhtml">
+    <ui:define name="source">
+    
+<!--     Dictonary music authors -->
+        
+        <h:form id="form">
+        	<b:panel >
+        	<b:panelGrid columns="1">
+        		<b:badge >
+        			<b:dataTable value="#{menuView.musicAuthors}"
+             			var="musicAuthor"
+             			select="true"
+             			selection-mode="single"
+             			selected-items="rows"
+             			widget-var="musicAuthorTable" 
+             			id="musicAuthorTable"
+             			searching="false" 
+             			onselect="ajax:menuView.onSelect(musicAuthor);"
+				        ondeselect="ajax:menuView.onDeselect(musicAuthor);"
+             			update=":modalformchange :form:changeDialogView :form:deleteButton">
+
+ 						<f:facet name="header">
+      						<tr>
+      							<th colspan="2" >Авторы музыки</th>
+					        </tr>
+						    <tr>
+        						<th>Id</th>
+        						<th>Наименование</th>
+						    </tr>
+    					</f:facet>
+             		
+						<b:dataTableColumn value="#{musicAuthor.id}" />
+						<b:dataTableColumn value="#{musicAuthor.title}" />
+             		
+           			</b:dataTable>
+				</b:badge>
+				<b:badge >
+           	 		 <b:panelGrid columns="3" size="xs" >
+                   		<b:badge>				 	
+                   			<b:button id="changeDialogView" value="Изменить" onclick="$('.modalPseudoClass2').modal()" disabled="#{menuView.disableChnageMusicAuthorButton}"  />
+                   		</b:badge>
+                   		<b:badge>
+                   			<b:button id="addNewDialogView" value="Добавить" onclick="$('.modalPseudoClass').modal()"  />
+                   		</b:badge>
+                   		<b:badge>
+                   			<b:commandButton id="deleteButton" value="Удалить"
+                   				 action="#{menuView.delete}" disabled="#{menuView.disableChnageMusicAuthorButton}"
+                   				 update=":form:musicAuthorTable :form:deleteButton :form:changeDialogView"  />
+                   		</b:badge>
+                   	</b:panelGrid>
+        		</b:badge>  
+				
+			</b:panelGrid>
+			</b:panel>
+			
+        </h:form>
+
+
+		<b:modal id="musicAuthorDialog" title="Автор музыки"
+			styleClass="modalPseudoClass" widgetVar="musicAuthorDialog">
+			<h:form id="modalform">
+				<b:panelGrid columns="2" size="xs">
+					<b:badge value="Наименование" />
+					<b:badge>
+						<b:inputText value="#{menuView.newDictonaryTitle}" />
+					</b:badge>
+					
+					<b:badge>
+						<b:commandButton value="Сохранить" look="primary" dismiss="modal"
+							onclick="$('.modalPseudoClass').hide()"
+							action="#{menuView.save}"
+							update=":form:musicAuthorTable" />
+					</b:badge>
+					<b:badge>
+						<b:button value="Отмена" dismiss="modal" />
+					</b:badge>
+					
+					
+				</b:panelGrid>
+
+			</h:form>
+		</b:modal>
+		
+		<b:modal id="musicAuthorUpdateDialog" title="Автор музыки"
+			styleClass="modalPseudoClass2" widgetVar="musicAuthorUpdateDialog">
+			<h:form id="modalformchange">
+				<b:panelGrid columns="2" size="xs">
+					<b:badge value="Id" />
+					<b:badge>
+						<h:outputText value="#{menuView.selectedMusicAuthor.id}" />
+					</b:badge>
+					<b:badge value="Наименование" />
+					<b:badge>
+						<b:inputText value="#{menuView.selectedMusicAuthor.title}" />
+					</b:badge>
+					
+					<b:badge>
+						<b:commandButton value="Сохранить" look="primary" dismiss="modal"
+							onclick="$('.modalPseudoClass2').hide()"
+							action="#{menuView.update}"
+							update=":form:musicAuthorTable" />
+					</b:badge>
+					<b:badge>
+						<b:button value="Отмена" dismiss="modal" />
+					</b:badge>
+					
+					
+				</b:panelGrid>
+
+			</h:form>
+		</b:modal>
+
+	</ui:define>
+
+</ui:composition>
